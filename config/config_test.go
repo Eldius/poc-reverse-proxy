@@ -150,6 +150,7 @@ func randInvalidPrefix() string {
 }
 
 func BenchmarkMatch(b *testing.B) {
+	b.StopTimer()
 	cfg, err := LoadRoutes()
 	if err != nil {
 		b.Error("Failed to load config")
@@ -161,6 +162,7 @@ func BenchmarkMatch(b *testing.B) {
 		if n%2 == 0 {
 			prefix := randValidPrefix()
 			path := generateRandomPath(prefix)
+			b.StartTimer()
 			r := match(path, cfg.patterns)
 			if r == nil {
 				b.Errorf("Result Route should not be nil for path '%s', but it was", path)
@@ -168,6 +170,7 @@ func BenchmarkMatch(b *testing.B) {
 		} else {
 			prefix := randInvalidPrefix()
 			path := generateRandomPath(prefix)
+			b.StartTimer()
 			r := match(path, cfg.patterns)
 			if r != nil {
 				b.Errorf("Result Route should be nil for path '%s', but it was not", path)
@@ -180,6 +183,7 @@ func BenchmarkMatch(b *testing.B) {
 }
 
 func BenchmarkGetRoute(b *testing.B) {
+	b.StopTimer()
 	cfg, err := LoadRoutes()
 	if err != nil {
 		b.Error("Failed to load config")
@@ -191,6 +195,7 @@ func BenchmarkGetRoute(b *testing.B) {
 		if n%2 == 0 {
 			prefix := randValidPrefix()
 			path := generateRandomPath(prefix)
+			b.StartTimer()
 			r := executeGetRoute(cfg, "http://test.com"+path)
 			if r == nil {
 				b.Errorf("Result Route should not be nil for path '%s', but it was", path)
@@ -198,6 +203,7 @@ func BenchmarkGetRoute(b *testing.B) {
 		} else {
 			prefix := randInvalidPrefix()
 			path := generateRandomPath(prefix)
+			b.StartTimer()
 			r := executeGetRoute(cfg, "http://test.com"+path)
 			if r != nil {
 				b.Errorf("Result Route should be nil for path '%s', but it was not", path)
