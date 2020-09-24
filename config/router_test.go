@@ -4,7 +4,6 @@ import (
 	"math/rand"
 	"net/http/httptest"
 	"testing"
-	"time"
 )
 
 func TestMatch(t *testing.T) {
@@ -136,9 +135,7 @@ func BenchmarkMatch(b *testing.B) {
 		b.Error("Failed to load config")
 	}
 
-	qtd := b.N
-	start := time.Now()
-	for n := 0; n < qtd; n++ {
+	for n := 0; n < b.N; n++ {
 		if n%2 == 0 {
 			prefix := randValidPrefix()
 			path := generateRandomPath(prefix)
@@ -156,10 +153,7 @@ func BenchmarkMatch(b *testing.B) {
 				b.Errorf("Result Route should be nil for path '%s', but it was not", path)
 			}
 		}
-
 	}
-	b.Logf("iterations: %d (%d ms)", qtd, time.Since(start).Milliseconds())
-
 }
 
 func BenchmarkGetRoute(b *testing.B) {
@@ -169,9 +163,7 @@ func BenchmarkGetRoute(b *testing.B) {
 		b.Error("Failed to load config")
 	}
 
-	qtd := b.N
-	start := time.Now()
-	for n := 0; n < qtd; n++ {
+	for n := 0; n < b.N; n++ {
 		if n%2 == 0 {
 			prefix := randValidPrefix()
 			path := generateRandomPath(prefix)
@@ -189,7 +181,5 @@ func BenchmarkGetRoute(b *testing.B) {
 				b.Errorf("Result Route should be nil for path '%s', but it was not", path)
 			}
 		}
-
 	}
-	b.Logf("iterations: %d (%d ms)", qtd, time.Since(start).Milliseconds())
 }
