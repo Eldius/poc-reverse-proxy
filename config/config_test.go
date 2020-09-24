@@ -9,8 +9,8 @@ import (
 
 func init() {
 	viper.SetConfigFile("samples/config.yaml")
-	if err := viper.ReadInConfig(); err == nil {
-		log.Println("Using config file:", viper.ConfigFileUsed())
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatal("Using config file:", viper.ConfigFileUsed())
 	}
 }
 
