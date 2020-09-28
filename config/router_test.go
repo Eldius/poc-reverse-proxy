@@ -99,6 +99,10 @@ func TestMatchRequestNotMatch(t *testing.T) {
 	}
 }
 
+func TestRedirect(t *testing.T) {
+	gock.
+}
+
 func executeGetRoute(cfg RoutesConfig, url string) *Route {
 	req := httptest.NewRequest("GET", url, nil)
 	return cfg.GetRoute(req)

@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"net/http"
 	"regexp"
 
 	"github.com/spf13/viper"
@@ -14,6 +15,7 @@ func LoadRoutes() (cfg RoutesConfig, err error) {
 	for k := range viper.GetStringMap("routes") {
 		var r Route
 		_ = viper.UnmarshalKey(fmt.Sprintf("routes.%s", k), &r)
+		r.client = &http.Client{}
 		patterns[regexp.MustCompile(k)] = r
 		routes[k] = r
 	}
